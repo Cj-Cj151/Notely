@@ -1,0 +1,60 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.app-shell {
+  display: grid;
+  min-height: 100dvh;
+  grid-template-columns: 238px 356px minmax(0, 1fr);
+  background: #111317;
+}
+
+.sidebar-column,
+.notes-column,
+.editor-column {
+  min-width: 0;
+  min-height: 100%;
+}
+
+@media (max-width: 1100px) {
+  .app-shell {
+    grid-template-columns: 210px 320px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .sidebar-column {
+    display: block;
+    grid-column: 1;
+    grid-row: 1;
+    height: auto;
+    min-height: 0;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .notes-column,
+  .editor-column {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .editor-column {
+    display: none;
+  }
+
+  .app-shell.mobile-editor-open .notes-column {
+    display: none;
+  }
+
+  .app-shell.mobile-editor-open .editor-column {
+    display: block;
+  }
+}

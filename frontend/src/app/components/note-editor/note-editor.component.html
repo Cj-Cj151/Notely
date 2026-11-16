@@ -1,0 +1,115 @@
+<section class="editor-panel" aria-label="Note editor">
+  @if (mode === 'empty') {
+    <div class="empty-editor">
+      <span class="eyebrow">A SPACE OF YOUR OWN</span>
+      <h1>Make room<br />for a thought.</h1>
+      <p>Your notes will live here. Start with a blank page whenever you’re ready.</p>
+      <button mat-stroked-button (click)="createRequested.emit()">Create a note</button>
+    </div>
+  } @else {
+    <header class="editor-toolbar">
+      <button mat-button class="back-button" (click)="backRequested.emit()">← Notes</button>
+      <div class="document-path">
+        <span>NOTELY</span>
+        <span class="path-divider">/</span>
+        <span>{{ mode === 'create' ? 'NEW NOTE' : 'YOUR NOTES' }}</span>
+      </div>
+
+      <div class="toolbar-actions">
+        @if (mode === 'view') {
+          @if (note) {
+            <button
+              mat-button
+              class="favorite-toggle"
+              [disabled]="busy"
+              [attr.aria-pressed]="note.isFavorite"
+              (click)="favoriteRequested.emit(note)"
+            >
+              {{ note.isFavorite ? '★ Favorited' : '☆ Favorite' }}
+            </button>
+            @if (note.isArchived) {
+              <button mat-button [disabled]="busy" (click)="restoreRequested.emit(note)">Restore</button>
+            } @else {
+              <button mat-button [disabled]="busy" (click)="archiveRequested.emit(note)">Archive</button>
+            }
+          }
+          <button mat-button (click)="editRequested.emit()">Edit</button>
+          <button mat-button class="delete-action" [disabled]="busy" (click)="deleteRequested.emit()">
+            {{ note?.isArchived ? 'Delete permanently' : 'Delete' }}
+          </button>
+        } @else {
+          <button mat-button (click)="cancelRequested.emit()" [disabled]="busy">Cancel</button>
+          <button
+            mat-flat-button
+            class="save-button"
+            type="submit"
+            form="note-editor-form"
+            [disabled]="busy || form.invalid"
+          >
+            {{ busy ? 'Saving…' : 'Save note' }}
+          </button>
+        }
+      </div>
+    </header>
+
+    @if (mode === 'view' && note) {
+      <article class="note-document">
+        <div class="note-meta">
+          <span>LAST EDITED</span>
+          <time>{{ note.updatedAt | date: 'MMMM d, y · h:mm a' }}</time>
+          <span class="category-label">{{ categoryLabel(note.category) }}</span>
+        </div>
+        <h1>{{ note.title }}</h1>
+        <div class="note-content">{{ note.content }}</div>
+      </article>
+    } @else {
+      <form id="note-editor-form" class="note-form" [formGroup]="form" (ngSubmit)="submit()">
+        <div class="note-meta">
+          <span>{{ mode === 'create' ? 'A NEW PAGE' : 'EDITING NOTE' }}</span>
+          <span>Changes save to your notebook</span>
+        </div>
+
+        <mat-form-field appearance="outline" class="title-field" subscriptSizing="dynamic">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" maxlength="255" placeholder="Untitled note" />
+          <mat-hint align="end">{{ form.controls.title.value.length }} / 255</mat-hint>
+          @if (form.controls.title.touched && form.controls.title.invalid) {
+            <mat-error>
+              @if (form.controls.title.hasError('maxlength')) {
+                Titles can be at most 255 characters.
+              } @else {
+                Please enter a title.
+              }
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="category-field" subscriptSizing="dynamic">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category">
+            @for (category of categories; track category) {
+              <mat-option [value]="category">{{ categoryLabel(category) }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="content-field" subscriptSizing="dynamic">
+          <mat-label>Content</mat-label>
+          <textarea
+            matInput
+            formControlName="content"
+            placeholder="Start writing…"
+            rows="16"
+          ></textarea>
+          @if (form.controls.content.touched && form.controls.content.invalid) {
+            <mat-error>Please enter some content.</mat-error>
+          }
+        </mat-form-field>
+      </form>
+    }
+
+    @if (errorMessage) {
+      <p class="editor-error" role="alert">{{ errorMessage }}</p>
+    }
+  }
+</section>

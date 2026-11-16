@@ -1,0 +1,41 @@
+<div class="app-shell" [class.mobile-editor-open]="mobileEditorOpen()">
+  <app-sidebar
+    class="sidebar-column"
+    [section]="section()"
+    (createNote)="createNote()"
+    (sectionSelected)="selectSection($event)"
+  />
+  <app-notes-list
+    class="notes-column"
+    [notes]="visibleNotes()"
+    [selectedId]="selectedNote()?.id ?? null"
+    [section]="section()"
+    [query]="searchQuery()"
+    [loading]="loading()"
+    [error]="loadError()"
+    (noteSelected)="selectNote($event)"
+    (queryChanged)="searchQuery.set($event)"
+    (createNote)="createNote()"
+    (favoriteToggled)="toggleFavorite($event)"
+    (archiveRequested)="archiveNote($event)"
+    (restoreRequested)="restoreNote($event)"
+    (deleteRequested)="confirmDelete($event)"
+    (retry)="retryLoad()"
+  />
+  <app-note-editor
+    class="editor-column"
+    [note]="selectedNote()"
+    [mode]="editorMode()"
+    [busy]="saving()"
+    [errorMessage]="operationError()"
+    (editRequested)="startEditing()"
+    (saveRequested)="saveNote($event)"
+    (cancelRequested)="cancelEditing()"
+    (deleteRequested)="confirmDelete()"
+    (favoriteRequested)="toggleFavorite($event)"
+    (archiveRequested)="archiveNote($event)"
+    (restoreRequested)="restoreNote($event)"
+    (createRequested)="createNote()"
+    (backRequested)="backToList()"
+  />
+</div>

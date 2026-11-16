@@ -1,0 +1,270 @@
+:host {
+  display: block;
+  min-width: 0;
+  height: 100%;
+}
+
+.editor-panel {
+  box-sizing: border-box;
+  display: flex;
+  min-height: 100vh;
+  height: 100%;
+  flex-direction: column;
+  padding: 0 48px 40px;
+  color: #e7e9ed;
+  background: #111317;
+}
+
+.editor-toolbar {
+  display: flex;
+  min-height: 88px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+  border-bottom: 1px solid #252b35;
+  padding-block: 10px;
+}
+
+.document-path {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: #768297;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+}
+
+.path-divider {
+  color: #43516a;
+}
+
+.toolbar-actions {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.toolbar-actions button {
+  color: #c4cad4 !important;
+  font-size: 16px !important;
+  line-height: 1.35;
+}
+
+.toolbar-actions .delete-action {
+  color: #bd8f91 !important;
+}
+
+.toolbar-actions .favorite-toggle {
+  color: #e2c47e !important;
+}
+
+.category-label {
+  padding: 3px 7px;
+  color: #a9bddb;
+  background: #1b2533;
+  border: 1px solid #2d405b;
+  border-radius: 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.save-button {
+  color: #f5f8ff !important;
+  background: #365b91 !important;
+  border-radius: 2px !important;
+}
+
+.back-button {
+  display: none;
+  color: #b8c5d9 !important;
+}
+
+.note-document,
+.note-form {
+  width: min(100%, 790px);
+  margin: 0 auto;
+  padding-top: 62px;
+}
+
+.note-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 13px;
+  margin-bottom: 23px;
+  color: #7c8798;
+  font-size: 13px;
+  line-height: 1.45;
+  letter-spacing: 0.1em;
+}
+
+.note-meta span:first-child {
+  color: #8ea9ce;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.note-document h1 {
+  margin: 0 0 28px;
+  color: #f0ede7;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(32px, 3.8vw, 38px);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.note-content {
+  max-width: 720px;
+  color: #b2b7c0;
+  font-size: 19px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.note-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.note-form .note-meta {
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.title-field,
+.category-field,
+.content-field {
+  width: 100%;
+}
+
+.title-field input {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 38px !important;
+  line-height: 1.3;
+}
+
+.content-field textarea.mat-mdc-input-element {
+  min-height: 360px;
+  font-size: 19px !important;
+  line-height: 1.8;
+  resize: vertical;
+}
+
+.editor-error {
+  width: min(100%, 790px);
+  margin: 18px auto 0;
+  color: #efaaaa;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.empty-editor {
+  display: flex;
+  width: min(100%, 450px);
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 50px 0;
+}
+
+.empty-editor .eyebrow {
+  color: #8092ad;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+}
+
+.empty-editor h1 {
+  margin: 16px 0;
+  color: #e9e7e1;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.25;
+}
+
+.empty-editor p {
+  max-width: 340px;
+  margin: 0 0 24px;
+  color: #9099a8;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.empty-editor button {
+  color: #bbd2f3 !important;
+  border-color: #3a526f !important;
+  border-radius: 2px !important;
+}
+
+@media (max-width: 1100px) {
+  .editor-panel {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+}
+
+@media (max-width: 760px) {
+  .editor-panel {
+    min-height: 100dvh;
+    padding: 0 20px 28px;
+  }
+
+  .editor-toolbar {
+    min-height: 78px;
+    gap: 8px;
+    padding-block: 10px;
+  }
+
+  .back-button {
+    display: inline-flex;
+    margin-left: -12px;
+    flex: 0 0 auto;
+  }
+
+  .document-path {
+    display: none;
+  }
+
+  .toolbar-actions {
+    margin-left: auto;
+    flex: 1 1 260px;
+    gap: 4px;
+  }
+
+  .note-document,
+  .note-form {
+    padding-top: 38px;
+  }
+
+  .note-document h1 {
+    font-size: 38px;
+  }
+
+  .note-document .note-meta {
+    gap: 8px 12px;
+  }
+
+  .note-form .note-meta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+}

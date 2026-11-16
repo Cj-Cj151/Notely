@@ -1,0 +1,102 @@
+<section class="notes-panel" aria-label="Notes list">
+  <header class="notes-heading">
+    <div>
+      <span class="eyebrow mobile-brand">NOTELY / WORKSPACE</span>
+      <span class="eyebrow desktop-brand">YOUR WORKSPACE</span>
+      <h1>{{ sectionTitle }}</h1>
+    </div>
+    <button mat-icon-button class="add-note-button" aria-label="Create a note" (click)="createNote.emit()">
+      <span aria-hidden="true">＋</span>
+    </button>
+  </header>
+
+  <mat-form-field appearance="outline" class="search-field" subscriptSizing="dynamic">
+    <mat-label>Search notes</mat-label>
+    <input
+      matInput
+      type="search"
+      autocomplete="off"
+      [value]="query"
+      (input)="queryChanged.emit($any($event.target).value)"
+    />
+    <span matTextSuffix class="search-symbol" aria-hidden="true">⌕</span>
+  </mat-form-field>
+
+  <div class="sort-label">
+    <span>Sorted by <strong>recently edited</strong></span>
+    <span class="note-count">{{ notes.length }}</span>
+  </div>
+
+  <div class="note-list">
+    @if (loading) {
+      <div class="state-message" role="status">
+        <span class="loading-mark"></span>
+        <span>Gathering your notes…</span>
+      </div>
+    } @else if (error) {
+      <div class="state-message error-state" role="alert">
+        <strong>Notes are unavailable</strong>
+        <span>{{ error }}</span>
+        <button mat-button (click)="retry.emit()">Try again</button>
+      </div>
+    } @else if (notes.length === 0 && query.trim()) {
+      <div class="state-message">
+        <strong>No notes found</strong>
+        <span>Try another title or phrase.</span>
+      </div>
+    } @else if (notes.length === 0) {
+      <div class="state-message empty-list-state">
+        <strong>{{ emptyTitle }}</strong>
+        <span>{{ emptyDescription }}</span>
+        @if (section === 'all') {
+          <button mat-button (click)="createNote.emit()">Create your first note</button>
+        }
+      </div>
+    } @else {
+      @for (note of notes; track note.id) {
+        <article class="note-card" [class.selected]="note.id === selectedId">
+          <button
+            type="button"
+            class="note-card-main"
+            [attr.aria-current]="note.id === selectedId ? 'true' : null"
+            (click)="noteSelected.emit(note)"
+          >
+            <div class="card-meta">
+              <time>{{ note.updatedAt | date: 'MMM d' }}</time>
+              <span class="card-category">{{ categoryLabel(note) }}</span>
+            </div>
+            <h2>{{ note.title }}</h2>
+            <p>{{ note.content || 'No preview available.' }}</p>
+          </button>
+          <div class="note-actions" (click)="stopCardClick($event)">
+            <button
+              type="button"
+              class="note-action favorite-action"
+              [attr.aria-label]="note.isFavorite ? 'Remove from favorites' : 'Add to favorites'"
+              [attr.aria-pressed]="note.isFavorite"
+              (click)="favoriteToggled.emit(note)"
+            >
+              {{ note.isFavorite ? '★' : '☆' }}
+            </button>
+            @if (note.isArchived) {
+              <button type="button" class="note-action" (click)="restoreRequested.emit(note)">
+                Restore
+              </button>
+              <button
+                type="button"
+                class="note-action destructive-action"
+                (click)="deleteRequested.emit(note)"
+              >
+                Delete permanently
+              </button>
+            } @else {
+              <button type="button" class="note-action" (click)="archiveRequested.emit(note)">
+                Archive
+              </button>
+            }
+          </div>
+        </article>
+      }
+    }
+  </div>
+</section>

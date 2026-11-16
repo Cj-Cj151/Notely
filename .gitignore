@@ -1,0 +1,24 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.angular/
+coverage/
+tmp/
+out-tsc/
+
+# Generated Prisma client
+backend/generated/prisma/
+
+# System files
+.DS_Store
+Thumbs.db
